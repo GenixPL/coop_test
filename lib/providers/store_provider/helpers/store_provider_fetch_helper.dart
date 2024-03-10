@@ -1,0 +1,5 @@
+class StoreProviderFetchHelper {
+  const StoreProviderFetchHelper();
+
+
+}
