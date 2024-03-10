@@ -1,7 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 
-abstract class GenProvider extends ChangeNotifier {
+abstract class GenProvider<T> extends ValueNotifier<T> {
+  GenProvider(super.value);
+
   bool _wasInitialised = false;
 
   @protected

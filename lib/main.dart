@@ -12,19 +12,13 @@ import 'package:flutter/material.dart';
 void main() {
   const Logger logger = Logger();
 
-  final StoreProvider storeProvider = StoreProvider(
-    storeProviderFetchHelper: const StoreProviderFetchHelper(
-      logger: logger,
-    ),
-  );
-
   const PlaceTaker placeTaker = PlaceTaker(
     logger: logger,
   );
 
   runApp(MultiProvider(
     providers: [
-      ChangeNotifierProvider(create: (_) => storeProvider),
+      Provider(create: (_) => logger),
       Provider(create: (_) => placeTaker),
     ],
     child: MyApp(
