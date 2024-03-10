@@ -1,6 +1,8 @@
 import 'package:coop_test/models/_models.dart';
 import 'package:coop_test/screens/_screens.dart';
 import 'package:coop_test/utils/_utils.dart';
+import 'package:flutter_map/flutter_map.dart';
+import 'package:latlong2/latlong.dart';
 
 class FindStoreProvider extends GenProvider<FindStoreState> {
   FindStoreProvider()
@@ -20,7 +22,7 @@ class FindStoreProvider extends GenProvider<FindStoreState> {
 
   // region Exposed
 
-  Future<HttpError?> fetch(StoreFetchRequestData storeFetchRequestData) async {
+  Future<List<Store>?> fetch(StoreFetchRequestData storeFetchRequestData) async {
     if (value.isLoading) {
       print('ALREADY FETCHING');
       return null;
@@ -35,7 +37,9 @@ class FindStoreProvider extends GenProvider<FindStoreState> {
     final List<Store>? stores = result.stores;
     if (stores == null) {
       value = value.copyWith(isLoading: false);
-      return result.error ?? const HttpUnknownError();
+      // Logger
+      print(result.error);
+      return null;
     }
 
     // Handle good
@@ -44,7 +48,7 @@ class FindStoreProvider extends GenProvider<FindStoreState> {
       stores: stores,
     );
 
-    return null;
+    return stores;
   }
 
   void changeView(FindStoreScreenView view) {

@@ -4,13 +4,15 @@ import 'package:coop_test/utils/http/http_error.dart';
 import 'package:coop_test/widgets/_widgets.dart';
 import 'package:coop_test/models/_models.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_map/flutter_map.dart';
+import 'package:latlong2/latlong.dart';
 
 enum FindStoreScreenView {
   map,
   list,
 }
 
-class FindStoreScreen extends StatelessWidget {
+class FindStoreScreen extends StatefulWidget {
   const FindStoreScreen({
     super.key,
   });
@@ -25,6 +27,19 @@ class FindStoreScreen extends StatelessWidget {
         return const FindStoreScreen();
       },
     );
+  }
+
+  @override
+  State<FindStoreScreen> createState() => _FindStoreScreenState();
+}
+
+class _FindStoreScreenState extends State<FindStoreScreen> {
+  final MapController _mapController = MapController();
+
+  @override
+  void dispose() {
+    _mapController.dispose();
+    super.dispose();
   }
 
   @override
@@ -44,10 +59,16 @@ class FindStoreScreen extends StatelessWidget {
                 children: [
                   _buildTextField(context, state.isLoading),
                   Expanded(
-                    child: switch (state.view) {
-                      FindStoreScreenView.map => const Text('map'),
-                      FindStoreScreenView.list => _buildList(state.stores),
-                    },
+                    child: IndexedStack(
+                      index: switch (state.view) {
+                        FindStoreScreenView.map => 0,
+                        FindStoreScreenView.list => 1,
+                      },
+                      children: [
+                        _buildMap(state.stores),
+                        _buildList(state.stores),
+                      ],
+                    ),
                   ),
                   Row(
                     children: [
@@ -87,10 +108,44 @@ class FindStoreScreen extends StatelessWidget {
     );
   }
 
+  Widget _buildMap(List<Store> stores) {
+    return FlutterMap(
+      mapController: _mapController,
+      options: const MapOptions(
+        // Oslo
+        initialCenter: LatLng(59.9139, 10.7522),
+      ),
+      children: [
+        TileLayer(
+          urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+        ),
+        MarkerLayer(
+          markers: [
+            for (Store store in stores)
+              Marker(
+                point: LatLng(store.lat, store.lon),
+                child: GestureDetector(
+                  onTap: () {
+                    print(store.name);
+                  },
+                  child: Icon(Icons.place_outlined),
+                ),
+              ),
+          ],
+        ),
+      ],
+    );
+  }
+
   Future<void> _onInputSubmit(BuildContext context, String input) async {
-    final HttpError? error = await context.read<FindStoreProvider>().fetch(StoreFetchRequestData.forInput(input));
-    if (error != null) {
-      print(error);
+    final List<Store>? stores = await context.read<FindStoreProvider>().fetch(StoreFetchRequestData.forInput(input));
+    if (stores != null && stores.isNotEmpty) {
+      _mapController.fitCamera(CameraFit.coordinates(
+        padding: const EdgeInsets.all(24),
+        coordinates: [
+          for (Store store in stores) LatLng(store.lat, store.lon),
+        ],
+      ));
     }
   }
 

@@ -30,6 +30,7 @@ class FindStoreState with EquatableMixin {
   @override
   List<Object?> get props {
     return <Object?>[
+      isLoading,
       stores,
       view,
     ];
