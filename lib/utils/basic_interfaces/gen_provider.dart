@@ -1,5 +1,5 @@
 import 'package:flutter/cupertino.dart';
 
-abstract class CoopProvider extends ChangeNotifier {
+abstract class GenProvider extends ChangeNotifier {
   void init();
 }

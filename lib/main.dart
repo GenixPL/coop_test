@@ -5,13 +5,19 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 // TODO(genix): add comments
+// TODO(genix): duplication in fetches
+// TODO(genix): http client with:
+// https://docs.flutter.dev/data-and-backend/networking#platform-notes
+// TODO(genix): inits should be moved after initial loading
 
 void main() {
   const Logger logger = Logger();
 
   final StoreProvider storeProvider = StoreProvider(
-    storeProviderFetchHelper: const StoreProviderFetchHelper(),
-  );
+    storeProviderFetchHelper: const StoreProviderFetchHelper(
+      logger: logger,
+    ),
+  )..init();
 
   const PlaceTaker placeTaker = PlaceTaker(
     logger: logger,

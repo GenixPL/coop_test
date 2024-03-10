@@ -1,3 +1,4 @@
+import 'package:coop_test/providers/_providers.dart';
 import 'package:equatable/equatable.dart';
 
 sealed class StoreProviderState with EquatableMixin {
@@ -5,11 +6,17 @@ sealed class StoreProviderState with EquatableMixin {
 }
 
 class StoreProviderLoadingState extends StoreProviderState {
-  const StoreProviderLoadingState();
+  const StoreProviderLoadingState({
+    required this.stores,
+  });
+
+  final List<Store> stores;
 
   @override
   List<Object?> get props {
-    return <Object?>[];
+    return <Object?>[
+      stores,
+    ];
   }
 }
 
@@ -18,10 +25,12 @@ class StoreProviderLoadedState extends StoreProviderState {
     required this.stores,
   });
 
-  final List<String> stores;
+  final List<Store> stores;
 
   @override
   List<Object?> get props {
-    return <Object?>[];
+    return <Object?>[
+      stores,
+    ];
   }
 }

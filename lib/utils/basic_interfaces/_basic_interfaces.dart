@@ -1,1 +1,1 @@
-export 'coop_provider.dart';
+export 'gen_provider.dart';

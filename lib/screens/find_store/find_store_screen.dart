@@ -1,3 +1,5 @@
+import 'package:coop_test/providers/_providers.dart';
+import 'package:coop_test/utils/http/http_error.dart';
 import 'package:coop_test/widgets/_widgets.dart';
 import 'package:flutter/material.dart';
 
@@ -22,11 +24,41 @@ class FindStoreScreen extends StatelessWidget {
         title: const Text('find store'),
       ),
       layout: ExpandedLayout(
-        child: Container(
-          color: Colors.redAccent,
-          child: Text('map'),
+        child: Column(
+          children: [
+            TextField(
+              onSubmitted: (String input) => _onInputSubmit(context, input),
+            ),
+            Container(
+              color: Colors.redAccent,
+              child: Consumer<StoreProvider>(
+                builder: (BuildContext context, StoreProvider provider, Widget? child) {
+                  final StoreProviderState state = provider.state;
+                  switch (state) {
+                    case StoreProviderLoadingState():
+                      return const CircularProgressIndicator();
+
+                    case StoreProviderLoadedState():
+                      return Column(
+                        children: [
+                          Text('LOADED'),
+                          for (Store store in state.stores) Text(store.toString()),
+                        ],
+                      );
+                  }
+                },
+              ),
+            ),
+          ],
         ),
       ),
     );
+  }
+
+  Future<void> _onInputSubmit(BuildContext context, String input) async {
+    final HttpError? error = await context.read<StoreProvider>().fetchForInput(input);
+    if (error != null) {
+      print(error);
+    }
   }
 }
