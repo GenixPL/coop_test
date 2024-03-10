@@ -1,5 +1,8 @@
+import 'package:coop_test/screens/_screens.dart';
+import 'package:coop_test/utils/_utils.dart';
 import 'package:coop_test/widgets/_widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -14,9 +17,9 @@ class HomeScreen extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             GenTextButton(
-              text: 'A',
+              text: 'find store',
               onTap: () {
-                print('A');
+                context.read<PlaceTaker>().push(FindStoreScreen.route());
               },
             ),
             GenTextButton(
