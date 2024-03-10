@@ -1,6 +1,8 @@
 import 'package:coop_test/screens/_screens.dart';
 import 'package:flutter/material.dart';
 
+// TODO(genix): add comments
+
 void main() {
   runApp(const MyApp());
 }

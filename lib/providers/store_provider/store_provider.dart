@@ -30,7 +30,16 @@ class StoreProvider extends CoopProvider {
     return _state;
   }
 
-  
+  Future<HttpError?> fetchFromInput(String input) async {
+    return HttpNoInternetError();
+  }
+
+  Future<HttpError?> fetchFromLoc({
+    required double lat,
+    required double lon,
+  }) async {
+    return HttpNoInternetError();
+  }
 
   // endregion
 }
