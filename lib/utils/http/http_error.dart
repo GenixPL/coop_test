@@ -22,8 +22,32 @@ class HttpTimeoutError extends HttpError {
   }
 }
 
+class HttpCodeError extends HttpError {
+  const HttpCodeError({
+    required this.statusCode,
+  });
+
+  final int statusCode;
+
+  @override
+  List<Object?> get props {
+    return <Object?>[
+      statusCode,
+    ];
+  }
+}
+
 class HttpNoInternetError extends HttpError {
   const HttpNoInternetError();
+
+  @override
+  List<Object?> get props {
+    return <Object?>[];
+  }
+}
+
+class HttpParseError extends HttpError {
+  const HttpParseError();
 
   @override
   List<Object?> get props {

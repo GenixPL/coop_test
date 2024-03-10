@@ -2,7 +2,6 @@ import 'package:coop_test/providers/_providers.dart';
 import 'package:coop_test/screens/_screens.dart';
 import 'package:coop_test/utils/_utils.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 // TODO(genix): add comments
 // TODO(genix): duplication in fetches
@@ -17,7 +16,7 @@ void main() {
     storeProviderFetchHelper: const StoreProviderFetchHelper(
       logger: logger,
     ),
-  )..init();
+  );
 
   const PlaceTaker placeTaker = PlaceTaker(
     logger: logger,
@@ -25,8 +24,8 @@ void main() {
 
   runApp(MultiProvider(
     providers: [
-      ChangeNotifierProvider.value(value: storeProvider),
-      Provider.value(value: placeTaker),
+      ChangeNotifierProvider(create: (_) => storeProvider),
+      Provider(create: (_) => placeTaker),
     ],
     child: MyApp(
       navKey: placeTaker.navKey,

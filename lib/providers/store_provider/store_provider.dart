@@ -1,6 +1,7 @@
 import 'package:coop_test/providers/_providers.dart';
 import 'package:coop_test/utils/_utils.dart';
 
+// This one should be per screen / widget and some sort of storage can be global
 class StoreProvider extends GenProvider {
   StoreProvider({
     required StoreProviderFetchHelper storeProviderFetchHelper,
@@ -37,38 +38,14 @@ class StoreProvider extends GenProvider {
     return _state;
   }
 
-  Future<HttpError?> fetchForInput(String input) async {
-    return _handleFetch(
-      fetchFunction: () => _fetchHelper.fetchForInput(input),
-    );
-  }
-
-  Future<HttpError?> fetchForLoc({
-    required double lat,
-    required double lon,
-  }) async {
-    return _handleFetch(
-      fetchFunction: () => _fetchHelper.fetchForLoc(
-        lat: lat,
-        lon: lon,
-      ),
-    );
-  }
-
-  // endregion
-
-  // region Not Exposed
-
-  Future<HttpError?> _handleFetch({
-    required Future<StoreFetchResult> Function() fetchFunction,
-  }) async {
+  Future<HttpError?> fetch(StoreFetchRequestData storeFetchRequestData) async {
     _state = StoreProviderLoadingState(
       stores: _stores,
     );
     notifyListeners();
 
     // Get
-    final StoreFetchResult result = await fetchFunction.call();
+    final StoreFetchResult result = await _fetchHelper.fetch(storeFetchRequestData);
 
     // Handle error
     final List<Store>? newStores = result.stores;

@@ -41,7 +41,7 @@ class FindStoreScreen extends StatelessWidget {
                     case StoreProviderLoadedState():
                       return Column(
                         children: [
-                          Text('LOADED'),
+                          const Text('LOADED'),
                           for (Store store in state.stores) Text(store.toString()),
                         ],
                       );
@@ -56,7 +56,7 @@ class FindStoreScreen extends StatelessWidget {
   }
 
   Future<void> _onInputSubmit(BuildContext context, String input) async {
-    final HttpError? error = await context.read<StoreProvider>().fetchForInput(input);
+    final HttpError? error = await context.read<StoreProvider>().fetch(StoreFetchRequestData.forInput(input));
     if (error != null) {
       print(error);
     }
