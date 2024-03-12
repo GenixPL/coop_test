@@ -22,12 +22,6 @@ class HomeScreen extends StatelessWidget {
                 context.read<PlaceTaker>().push(FindStoreScreen.route());
               },
             ),
-            GenTextButton(
-              text: 'B',
-              onTap: () {
-                print('B');
-              },
-            ),
           ],
         ),
       ),

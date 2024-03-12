@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
 
-enum FindStoreScreenView {
+enum _FindStoreScreenView {
   map,
   list,
 }
@@ -36,6 +36,7 @@ class FindStoreScreen extends StatefulWidget {
 class _FindStoreScreenState extends State<FindStoreScreen> {
   final MapController _mapController = MapController();
   Store? _selectedStore;
+  _FindStoreScreenView _view = _FindStoreScreenView.map;
 
   @override
   void dispose() {
@@ -61,9 +62,9 @@ class _FindStoreScreenState extends State<FindStoreScreen> {
                   _buildTextField(context, state.isLoading),
                   Expanded(
                     child: IndexedStack(
-                      index: switch (state.view) {
-                        FindStoreScreenView.map => 0,
-                        FindStoreScreenView.list => 1,
+                      index: switch (_view) {
+                        _FindStoreScreenView.map => 0,
+                        _FindStoreScreenView.list => 1,
                       },
                       children: [
                         Stack(
@@ -83,11 +84,16 @@ class _FindStoreScreenState extends State<FindStoreScreen> {
                     children: [
                       GenTextButton(
                         text: 'map',
-                        onTap: () => _changeView(context, FindStoreScreenView.map),
+                        onTap: () => _changeView(_FindStoreScreenView.map),
                       ),
                       GenTextButton(
                         text: 'list',
-                        onTap: () => _changeView(context, FindStoreScreenView.list),
+                        onTap: () => _changeView(_FindStoreScreenView.list),
+                      ),
+                      const Expanded(child: SizedBox()),
+                      GenTextButton(
+                        text: 'locate',
+                        onTap: () => _findStoresThroughLocation(context),
                       ),
                     ],
                   ),
@@ -102,7 +108,7 @@ class _FindStoreScreenState extends State<FindStoreScreen> {
 
   Widget _buildTextField(BuildContext context, bool isLoading) {
     return SearchBar(
-      onSubmitted: (String input) => _onInputSubmit(context, input),
+      onSubmitted: (String input) => _findStores(context, StoreFetchRequestData.forInput(input)),
       trailing: [
         if (isLoading) const CircularProgressIndicator(),
       ],
@@ -184,8 +190,24 @@ class _FindStoreScreenState extends State<FindStoreScreen> {
     );
   }
 
-  Future<void> _onInputSubmit(BuildContext context, String input) async {
-    final List<Store>? stores = await context.read<FindStoreProvider>().fetch(StoreFetchRequestData.forInput(input));
+  Future<void> _findStoresThroughLocation(BuildContext context) async {
+    final GetLocationResult result = await context.read<LocationProvider>().getLocation();
+
+    if (!mounted) {
+      return;
+    }
+
+    final LatLng? latLng = result.latLng;
+    if (latLng == null) {
+      context.read<Toaster>().showError(GetLocationErrorMappers.getLocationErrorToString(result.error));
+      return;
+    }
+
+    await _findStores(context, StoreFetchRequestData.forLatLng(latLng));
+  }
+
+  Future<void> _findStores(BuildContext context, StoreFetchRequestData storeFetchRequestData) async {
+    final List<Store>? stores = await context.read<FindStoreProvider>().fetch(storeFetchRequestData);
     if (stores != null && stores.isNotEmpty) {
       _mapController.fitCamera(CameraFit.coordinates(
         padding: const EdgeInsets.all(24),
@@ -196,8 +218,9 @@ class _FindStoreScreenState extends State<FindStoreScreen> {
     }
   }
 
-  void _changeView(BuildContext context, FindStoreScreenView view) {
-    context.read<FindStoreProvider>().changeView(view);
+  void _changeView(_FindStoreScreenView view) {
+    _view = view;
+    setState(() {});
   }
 
   void _selectStore(Store store) {

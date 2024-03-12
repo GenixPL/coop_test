@@ -1,3 +1,5 @@
+import 'package:latlong2/latlong.dart';
+
 class StoreFetchRequestData {
   const StoreFetchRequestData._({
     required this.url,
@@ -9,12 +11,10 @@ class StoreFetchRequestData {
     );
   }
 
-  static StoreFetchRequestData forLoc({
-    required double lat,
-    required double lon,
-  }) {
+  static StoreFetchRequestData forLatLng(LatLng latLng) {
     return StoreFetchRequestData._(
-      url: 'https://minside.coop.no/StoreService/SearchStores?locationLat=$lat&locationLon=$lon',
+      url:
+          'https://minside.coop.no/StoreService/SearchStores?locationLat=${latLng.latitude}&locationLon=${latLng.longitude}',
     );
   }
 

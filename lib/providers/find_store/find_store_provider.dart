@@ -7,7 +7,6 @@ class FindStoreProvider extends GenProvider<FindStoreState> {
       : super(const FindStoreState(
           isLoading: false,
           stores: <Store>[],
-          view: FindStoreScreenView.list,
         ));
 
   // region Dependencies
@@ -47,12 +46,6 @@ class FindStoreProvider extends GenProvider<FindStoreState> {
     );
 
     return stores;
-  }
-
-  void changeView(FindStoreScreenView view) {
-    value = value.copyWith(
-      view: view,
-    );
   }
 
   // endregion
