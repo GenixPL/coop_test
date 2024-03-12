@@ -40,6 +40,7 @@ class StoreInfoScreen extends StatelessWidget {
             Text(store.lat.toString()),
             Text(store.lon.toString()),
             Text(store.newsletterUrl),
+            // TODO(genix): map goes here
           ],
         ),
       ),

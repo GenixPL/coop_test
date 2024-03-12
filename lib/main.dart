@@ -16,10 +16,15 @@ void main() {
     logger: logger,
   );
 
+  const GenMapLauncher mapLauncher = GenMapLauncher(
+    logger: logger,
+  );
+
   runApp(MultiProvider(
     providers: [
       Provider(create: (_) => logger),
       Provider(create: (_) => placeTaker),
+      Provider(create: (_) => mapLauncher),
     ],
     child: MyApp(
       navKey: placeTaker.navKey,

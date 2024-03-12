@@ -1,8 +1,6 @@
 import 'package:coop_test/models/_models.dart';
 import 'package:coop_test/screens/_screens.dart';
 import 'package:coop_test/utils/_utils.dart';
-import 'package:flutter_map/flutter_map.dart';
-import 'package:latlong2/latlong.dart';
 
 class FindStoreProvider extends GenProvider<FindStoreState> {
   FindStoreProvider()

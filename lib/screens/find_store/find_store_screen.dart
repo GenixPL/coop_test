@@ -1,6 +1,6 @@
 import 'package:coop_test/providers/_providers.dart';
 import 'package:coop_test/screens/_screens.dart';
-import 'package:coop_test/utils/http/http_error.dart';
+import 'package:coop_test/utils/_utils.dart';
 import 'package:coop_test/widgets/_widgets.dart';
 import 'package:coop_test/models/_models.dart';
 import 'package:flutter/material.dart';
@@ -35,6 +35,7 @@ class FindStoreScreen extends StatefulWidget {
 
 class _FindStoreScreenState extends State<FindStoreScreen> {
   final MapController _mapController = MapController();
+  Store? _selectedStore;
 
   @override
   void dispose() {
@@ -65,7 +66,15 @@ class _FindStoreScreenState extends State<FindStoreScreen> {
                         FindStoreScreenView.list => 1,
                       },
                       children: [
-                        _buildMap(state.stores),
+                        Stack(
+                          children: [
+                            _buildMap(state.stores),
+                            Align(
+                              alignment: Alignment.bottomCenter,
+                              child: _buildMapTiles(state.stores),
+                            ),
+                          ],
+                        ),
                         _buildList(state.stores),
                       ],
                     ),
@@ -109,31 +118,69 @@ class _FindStoreScreenState extends State<FindStoreScreen> {
   }
 
   Widget _buildMap(List<Store> stores) {
-    return FlutterMap(
-      mapController: _mapController,
-      options: const MapOptions(
-        // Oslo
-        initialCenter: LatLng(59.9139, 10.7522),
-      ),
-      children: [
-        TileLayer(
-          urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
-        ),
-        MarkerLayer(
-          markers: [
-            for (Store store in stores)
-              Marker(
-                point: LatLng(store.lat, store.lon),
-                child: GestureDetector(
-                  onTap: () {
-                    print(store.name);
-                  },
-                  child: Icon(Icons.place_outlined),
+    final Store? selectedStore = _selectedStore;
+
+    return GenMap(
+      stores: stores,
+      onStoreTap: _selectStore,
+      controller: _mapController,
+      selectedStores: [
+        if (selectedStore != null) selectedStore,
+      ],
+    );
+  }
+
+  Widget _buildMapTiles(List<Store> stores) {
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.end,
+        children: stores.map((Store store) {
+          return IntrinsicHeight(
+            child: Padding(
+              padding: const EdgeInsets.all(16),
+              child: GestureDetector(
+                onTap: () => _selectStore(store),
+                child: Card(
+                  child: SizedBox(
+                    width: 200,
+                    child: Padding(
+                      padding: const EdgeInsets.all(16),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            store.name,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              IconButton(
+                                icon: const Icon(Icons.info_outline),
+                                onPressed: () {
+                                  context.read<PlaceTaker>().push(StoreInfoScreen.route(store: store));
+                                },
+                              ),
+                              IconButton(
+                                icon: const Icon(Icons.navigation_outlined),
+                                onPressed: () {
+                                  context.read<GenMapLauncher>().launchLoc(store.latLng);
+                                },
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
                 ),
               ),
-          ],
-        ),
-      ],
+            ),
+          );
+        }).toList(),
+      ),
     );
   }
 
@@ -151,5 +198,11 @@ class _FindStoreScreenState extends State<FindStoreScreen> {
 
   void _changeView(BuildContext context, FindStoreScreenView view) {
     context.read<FindStoreProvider>().changeView(view);
+  }
+
+  void _selectStore(Store store) {
+    _selectedStore = store;
+    _mapController.move(store.latLng, _mapController.camera.zoom);
+    setState(() {});
   }
 }

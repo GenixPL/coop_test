@@ -1,7 +1,8 @@
 import 'package:equatable/equatable.dart';
+import 'package:latlong2/latlong.dart';
 
 class Store with EquatableMixin {
-  const Store({
+  Store({
     required this.id,
     required this.name,
     required this.newsletterUrl,
@@ -14,6 +15,8 @@ class Store with EquatableMixin {
   final String newsletterUrl;
   final double lat;
   final double lon;
+
+  late final LatLng latLng = LatLng(lat, lon);
 
   @override
   List<Object?> get props {
