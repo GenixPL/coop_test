@@ -3,11 +3,7 @@ import 'package:coop_test/screens/_screens.dart';
 import 'package:coop_test/utils/_utils.dart';
 
 class FindStoreProvider extends GenProvider<FindStoreState> {
-  FindStoreProvider()
-      : super(const FindStoreState(
-          isLoading: false,
-          stores: <Store>[],
-        ));
+  FindStoreProvider() : super(FindStoreState.initial);
 
   // region Dependencies
 

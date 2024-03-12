@@ -8,6 +8,11 @@ class FindStoreState with EquatableMixin {
     required this.stores,
   });
 
+  static const FindStoreState initial = FindStoreState(
+    isLoading: false,
+    stores: <Store>[],
+  );
+
   final bool isLoading;
   final List<Store> stores;
 

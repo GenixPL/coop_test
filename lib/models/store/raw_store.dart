@@ -4,8 +4,8 @@ import 'package:json_annotation/json_annotation.dart';
 part 'raw_store.g.dart';
 
 @JsonSerializable()
-class RawStore {
-  const RawStore({
+class RawStore extends Store {
+  RawStore({
     required this.id,
     required this.name,
     required this.newsletterUrl,
@@ -23,28 +23,23 @@ class RawStore {
 
   // endregion
 
+  @override
   @JsonKey(name: 'StoreId')
   final String id;
 
+  @override
   @JsonKey(name: 'Name')
   final String name;
 
+  @override
   @JsonKey(name: 'NewspaperUrl')
   final String newsletterUrl;
 
+  @override
   @JsonKey(name: 'Lat')
   final double lat;
 
+  @override
   @JsonKey(name: 'Lng')
   final double lon;
-
-  Store toStore() {
-    return Store(
-      id: id,
-      name: name,
-      newsletterUrl: newsletterUrl,
-      lat: lat,
-      lon: lon,
-    );
-  }
 }

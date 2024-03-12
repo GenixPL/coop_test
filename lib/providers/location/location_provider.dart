@@ -4,7 +4,7 @@ import 'package:latlong2/latlong.dart';
 
 enum GetLocationError {
   serviceDisabled,
-  permissionsDenied,
+  permissionDenied,
   unknown,
 }
 
@@ -34,12 +34,14 @@ class LocationProvider extends GenProvider<LatLng?> {
   Future<GetLocationResult> getLocation() async {
     final bool? serviceEnabled = await _geolocator.isServiceEnabled();
     if (serviceEnabled == null) {
+      _logger.error('getLocation, could not be service info!');
       return (
         latLng: null,
         error: GetLocationError.unknown,
       );
     }
     if (!serviceEnabled) {
+      _logger.error('getLocation, service not enabled!');
       return (
         latLng: null,
         error: GetLocationError.serviceDisabled,
@@ -50,6 +52,7 @@ class LocationProvider extends GenProvider<LatLng?> {
     switch (permission) {
       case LocationPermission.unableToDetermine:
       case null:
+        _logger.error('getLocation, could not get permission info!');
         return (
           latLng: null,
           error: GetLocationError.unknown,
@@ -57,9 +60,10 @@ class LocationProvider extends GenProvider<LatLng?> {
 
       case LocationPermission.denied:
       case LocationPermission.deniedForever:
+        _logger.error('getLocation, permission denied!');
         return (
           latLng: null,
-          error: GetLocationError.permissionsDenied,
+          error: GetLocationError.permissionDenied,
         );
 
       case LocationPermission.whileInUse:
@@ -70,6 +74,7 @@ class LocationProvider extends GenProvider<LatLng?> {
 
     final Position? position = await _geolocator.getCurrentPosition();
     if (position == null) {
+      _logger.error('getLocation, could not get position!');
       return (
         latLng: null,
         error: GetLocationError.unknown,

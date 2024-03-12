@@ -80,7 +80,7 @@ class StoreFetchHelper {
         );
       }
 
-      stores.add(rawStore.toStore());
+      stores.add(rawStore);
     }
 
     return (

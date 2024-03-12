@@ -4,13 +4,8 @@ import 'package:coop_test/screens/_screens.dart';
 import 'package:coop_test/utils/_utils.dart';
 import 'package:flutter/material.dart';
 
-// TODO(genix): add comments
-// TODO(genix): duplication in fetches
 // TODO(genix): http client with:
 // https://docs.flutter.dev/data-and-backend/networking#platform-notes
-// TODO(genix): inits should be moved after initial loading
-// TODO(genix): permissions Android and iOS
-// TODO(genix): test Android and ios
 
 void main() {
   runApp(DepInjector(

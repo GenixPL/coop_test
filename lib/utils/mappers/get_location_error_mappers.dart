@@ -8,7 +8,7 @@ abstract class GetLocationErrorMappers {
       case GetLocationError.serviceDisabled:
         return 'Location service is disabled.';
 
-      case GetLocationError.permissionsDenied:
+      case GetLocationError.permissionDenied:
         return 'Please give the app location permissions.';
 
       case null:
