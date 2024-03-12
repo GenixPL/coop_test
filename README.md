@@ -1,16 +1,7 @@
 # coop_test
 
-A new Flutter project.
+flutter ver: 3.16.0 \
+dart ver: 3.2.0 \
+(in case some dep cause problems)
 
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+I didn't pay much attention to UI, I'm not a designer and decided to spend the time on showcasing the code structure.

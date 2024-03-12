@@ -20,11 +20,16 @@ void main() {
     logger: logger,
   );
 
+  const GenUrlLauncher urlLauncher = GenUrlLauncher(
+    logger: logger,
+  );
+
   runApp(MultiProvider(
     providers: [
       Provider(create: (_) => logger),
       Provider(create: (_) => placeTaker),
       Provider(create: (_) => mapLauncher),
+      Provider(create: (_) => urlLauncher),
     ],
     child: MyApp(
       navKey: placeTaker.navKey,

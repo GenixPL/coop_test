@@ -17,10 +17,8 @@ class GenMapLauncher {
     try {
       return await MapsLauncher.launchCoordinates(latLng.latitude, latLng.longitude);
     } catch (e) {
-      _logger.error('launchLoc, ');
+      _logger.error('launchLoc, error: $e');
       return false;
     }
-
-    return true;
   }
 }

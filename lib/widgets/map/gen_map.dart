@@ -16,7 +16,7 @@ class GenMap extends StatelessWidget {
   final MapController? controller;
   final List<Store> stores;
   final List<Store> selectedStores;
-  final void Function(Store store) onStoreTap;
+  final void Function(Store store)? onStoreTap;
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +30,7 @@ class GenMap extends StatelessWidget {
             _ => const LatLng(59.9139, 10.7522),
           },
           initialCameraFit: switch (stores.length) {
-            0 => null,
+            0 || 1 => null,
             _ => CameraFit.coordinates(
                 coordinates: stores.map((Store store) {
                   return LatLng(store.lat, store.lon);
@@ -46,7 +46,7 @@ class GenMap extends StatelessWidget {
             return Marker(
               point: LatLng(store.lat, store.lon),
               child: GestureDetector(
-                onTap: () => onStoreTap(store),
+                onTap: () => onStoreTap?.call(store),
                 child: switch (selectedStores.contains(store)) {
                   true => Icon(
                       Icons.place,
