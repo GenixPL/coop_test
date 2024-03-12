@@ -35,6 +35,7 @@ class StoreInfoScreen extends StatelessWidget {
         title: const Text('store info'),
       ),
       layout: ScrollableLayout(
+        axis: Axis.vertical,
         child: Padding(
           padding: const EdgeInsets.all(8.0),
           child: Column(

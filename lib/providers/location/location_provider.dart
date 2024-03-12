@@ -14,7 +14,7 @@ typedef GetLocationResult = ({
 });
 
 // Setup: https://pub.dev/packages/geolocator#usage
-class LocationProvider extends GenProvider<void> {
+class LocationProvider extends GenProvider<LatLng?> {
   LocationProvider({
     required Logger logger,
     required GenGeolocator genGeolocator,
@@ -29,20 +29,7 @@ class LocationProvider extends GenProvider<void> {
 
   // endregion
 
-  // region Values
-
-  // final List<Store> _stores = <Store>[];
-  // late StoreProviderState _state = StoreProviderLoadingState(
-  //   stores: _stores,
-  // );
-
-  // endregion
-
   // region Exposed
-
-  // StoreProviderState get state {
-  //   return _state;
-  // }
 
   Future<GetLocationResult> getLocation() async {
     final bool? serviceEnabled = await _geolocator.isServiceEnabled();
@@ -89,8 +76,11 @@ class LocationProvider extends GenProvider<void> {
       );
     }
 
+    final LatLng latLng = LatLng(position.latitude, position.longitude);
+    value = latLng;
+
     return (
-      latLng: LatLng(position.latitude, position.longitude),
+      latLng: latLng,
       error: null,
     );
   }

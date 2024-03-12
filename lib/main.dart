@@ -1,3 +1,4 @@
+import 'package:coop_test/dep_factory/_dep_factory.dart';
 import 'package:coop_test/providers/_providers.dart';
 import 'package:coop_test/screens/_screens.dart';
 import 'package:coop_test/utils/_utils.dart';
@@ -12,64 +13,39 @@ import 'package:flutter/material.dart';
 // TODO(genix): test Android and ios
 
 void main() {
-  const Logger logger = Logger();
-
-  const PlaceTaker placeTaker = PlaceTaker(
-    logger: logger,
-  );
-
-  const GenMapLauncher mapLauncher = GenMapLauncher(
-    logger: logger,
-  );
-
-  const GenUrlLauncher urlLauncher = GenUrlLauncher(
-    logger: logger,
-  );
-
-  const GenGeolocator genGeolocator = GenGeolocator(
-    logger: logger,
-  );
-
-  final LocationProvider locationProvider = LocationProvider(
-    logger: logger,
-    genGeolocator: genGeolocator,
-  );
-
-  const Toaster toaster = Toaster(
-    logger: logger,
-  );
-
-  runApp(MultiProvider(
-    providers: [
-      Provider(create: (_) => logger),
-      Provider(create: (_) => placeTaker),
-      Provider(create: (_) => mapLauncher),
-      Provider(create: (_) => urlLauncher),
-      Provider(create: (_) => toaster),
-      ChangeNotifierProvider.value(value: locationProvider),
-    ],
-    child: MyApp(
-      navKey: placeTaker.navKey,
-      toasterKey: toaster.key,
-    ),
+  runApp(DepInjector(
+    depFactory: ProdDepFactory(),
+    child: const MyApp(),
   ));
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({
+class DepInjector extends StatelessWidget {
+  const DepInjector({
     super.key,
-    required this.navKey,
-    required this.toasterKey,
+    required this.depFactory,
+    required this.child,
   });
 
-  final NavKey navKey;
-  final ToasterKey toasterKey;
+  final DepFactory depFactory;
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) {
+    return MultiProvider(
+      providers: depFactory.allGlobalProviders,
+      child: child,
+    );
+  }
+}
+
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      navigatorKey: navKey,
-      scaffoldMessengerKey: toasterKey,
+      navigatorKey: context.read<PlaceTaker>().navKey,
+      scaffoldMessengerKey: context.read<Toaster>().key,
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.grey.shade800),
         useMaterial3: true,

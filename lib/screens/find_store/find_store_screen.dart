@@ -1,3 +1,4 @@
+import 'package:coop_test/dep_factory/_dep_factory.dart';
 import 'package:coop_test/providers/_providers.dart';
 import 'package:coop_test/screens/_screens.dart';
 import 'package:coop_test/utils/_utils.dart';
@@ -52,7 +53,7 @@ class _FindStoreScreenState extends State<FindStoreScreen> {
       ),
       layout: ExpandedLayout(
         child: ChangeNotifierProvider(
-          create: (_) => FindStoreProvider(),
+          create: (_) => context.read<DepFactory>().buildFindStoreProvider(),
           child: Consumer<FindStoreProvider>(
             builder: (BuildContext context, FindStoreProvider provider, Widget? child) {
               final FindStoreState state = provider.value;
@@ -80,22 +81,39 @@ class _FindStoreScreenState extends State<FindStoreScreen> {
                       ],
                     ),
                   ),
-                  Row(
-                    children: [
-                      GenTextButton(
-                        text: 'map',
-                        onTap: () => _changeView(_FindStoreScreenView.map),
-                      ),
-                      GenTextButton(
-                        text: 'list',
-                        onTap: () => _changeView(_FindStoreScreenView.list),
-                      ),
-                      const Expanded(child: SizedBox()),
-                      GenTextButton(
-                        text: 'locate',
-                        onTap: () => _findStoresThroughLocation(context),
-                      ),
-                    ],
+                  ScrollableLayout(
+                    axis: Axis.horizontal,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Row(
+                          children: [
+                            GenTextButton(
+                              text: 'map',
+                              onTap: () => _changeView(_FindStoreScreenView.map),
+                            ),
+                            GenTextButton(
+                              text: 'list',
+                              onTap: () => _changeView(_FindStoreScreenView.list),
+                            ),
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            GenTextButton(
+                              text: 'fake position',
+                              onTap: () {
+                                context.read<LocationProvider>().value = LatLngMocks.oslo;
+                              },
+                            ),
+                            GenTextButton(
+                              text: 'find nearby',
+                              onTap: () => _findStoresThroughLocation(context),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
                 ],
               );
