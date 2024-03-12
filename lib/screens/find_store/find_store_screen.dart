@@ -166,6 +166,7 @@ class _FindStoreScreenState extends State<FindStoreScreen> {
               child: GestureDetector(
                 onTap: () => _selectStore(store),
                 child: Card(
+                  color: (store == _selectedStore) ? context.theme.primaryColor : null,
                   child: SizedBox(
                     width: 200,
                     child: Padding(
