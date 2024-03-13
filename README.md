@@ -12,6 +12,7 @@ I didn't pay much attention to UI, neither to:
 - readability,
 - separation
 - performance (it can't be bad at this point)
+- looks (I'm no designer `:(`)
 - nor re-usability
 
 (all of this should be solved by a design system) 
