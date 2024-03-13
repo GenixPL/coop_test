@@ -53,8 +53,8 @@ class _FindStoreScreenState extends State<FindStoreScreen> {
       layout: ExpandedLayout(
         child: ChangeNotifierProvider(
           create: (_) => context.read<DepFactory>().buildFindStoreProvider(),
-          child: Consumer<FindStoreProvider>(
-            builder: (BuildContext context, FindStoreProvider provider, Widget? child) {
+          child: Consumer<InstFindStoreProvider>(
+            builder: (BuildContext context, InstFindStoreProvider provider, Widget? child) {
               final FindStoreState state = provider.value;
 
               return Column(
@@ -102,7 +102,7 @@ class _FindStoreScreenState extends State<FindStoreScreen> {
                             GenTextButton(
                               text: 'fake position',
                               onTap: () {
-                                context.read<LocationProvider>().value = LatLngMocks.oslo;
+                                context.read<GlobLocationProvider>().value = LatLngMocks.oslo;
                               },
                             ),
                             GenTextButton(
@@ -209,7 +209,7 @@ class _FindStoreScreenState extends State<FindStoreScreen> {
   }
 
   Future<void> _findStoresThroughLocation(BuildContext context) async {
-    final GetLocationResult result = await context.read<LocationProvider>().getLocation();
+    final GetLocationResult result = await context.read<GlobLocationProvider>().getLocation();
 
     if (!mounted) {
       return;
@@ -225,7 +225,7 @@ class _FindStoreScreenState extends State<FindStoreScreen> {
   }
 
   Future<void> _findStores(BuildContext context, StoreFetchRequestData storeFetchRequestData) async {
-    final FindStoreFetchResult result = await context.read<FindStoreProvider>().fetch(storeFetchRequestData);
+    final FindStoreFetchResult result = await context.read<InstFindStoreProvider>().fetch(storeFetchRequestData);
 
     if (!mounted) {
       return;

@@ -20,7 +20,7 @@ class GenMap extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final LatLng? userLatLng = context.watch<LocationProvider>().value;
+    final LatLng? userLatLng = context.watch<GlobLocationProvider>().value;
 
     return FlutterMap(
       mapController: controller,

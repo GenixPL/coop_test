@@ -6,12 +6,15 @@ typedef FindStoreFetchResult = ({
   FindStoreFetchError? error,
 });
 
-// TODO(genix): rename to inst and glob
-class FindStoreProvider extends GenProvider<FindStoreState> {
-  FindStoreProvider() : super(FindStoreState.initial);
+class InstFindStoreProvider extends GenProvider<FindStoreState> {
+  InstFindStoreProvider({
+    required Logger logger,
+  })  : _logger = logger,
+        super(FindStoreState.initial);
 
   // region Dependencies
 
+  final Logger _logger;
   final StoreFetchHelper _fetchHelper = const StoreFetchHelper(
     logger: Logger(),
   );
@@ -22,6 +25,7 @@ class FindStoreProvider extends GenProvider<FindStoreState> {
 
   Future<FindStoreFetchResult> fetch(StoreFetchRequestData storeFetchRequestData) async {
     if (value.isLoading) {
+      _logger.error('fetch, different fetch is already in progress!');
       return (
         stores: null,
         error: const FindStoreFetchInProgressError(),
@@ -37,6 +41,7 @@ class FindStoreProvider extends GenProvider<FindStoreState> {
     final List<Store>? stores = result.stores;
     if (stores == null) {
       value = value.copyWith(isLoading: false);
+      _logger.error('fetch, fetch has failed, error: ${result.error}');
       return (
         stores: null,
         error: FindStoreFetchFailedFetchError(

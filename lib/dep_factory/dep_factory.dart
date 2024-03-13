@@ -61,13 +61,13 @@ abstract class DepFactory {
     ];
   }
 
-  LocationProvider get locationProvider;
+  GlobLocationProvider get locationProvider;
 
   // endregion
 
   // region Instance Providers
 
-  FindStoreProvider buildFindStoreProvider();
+  InstFindStoreProvider buildFindStoreProvider();
 
   // endregion
 }

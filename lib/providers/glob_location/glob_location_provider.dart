@@ -14,8 +14,8 @@ typedef GetLocationResult = ({
 });
 
 // Setup: https://pub.dev/packages/geolocator#usage
-class LocationProvider extends GenProvider<LatLng?> {
-  LocationProvider({
+class GlobLocationProvider extends GenProvider<LatLng?> {
+  GlobLocationProvider({
     required Logger logger,
     required GenGeolocator genGeolocator,
   })  : _logger = logger,

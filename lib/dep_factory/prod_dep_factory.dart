@@ -40,7 +40,7 @@ class ProdDepFactory extends DepFactory {
   // region Providers
 
   @override
-  late final LocationProvider locationProvider = LocationProvider(
+  late final GlobLocationProvider locationProvider = GlobLocationProvider(
     logger: logger,
     genGeolocator: genGeolocator,
   );
@@ -50,8 +50,10 @@ class ProdDepFactory extends DepFactory {
   // region Instance Providers
 
   @override
-  FindStoreProvider buildFindStoreProvider() {
-    return FindStoreProvider();
+  InstFindStoreProvider buildFindStoreProvider() {
+    return InstFindStoreProvider(
+      logger: logger,
+    );
   }
 
   // endregion
