@@ -26,15 +26,36 @@ class Toaster {
     return _key;
   }
 
-  void showError(String error) {
+  void showError(String text) {
+    _showToast(
+      text: text,
+      color: Colors.redAccent,
+    );
+  }
+
+  void showInfo(String text) {
+    _showToast(
+      text: text,
+      color: null,
+    );
+  }
+
+  // endregion
+
+  // region Not Exposed
+
+  void _showToast({
+    required String text,
+    required Color? color,
+  }) {
     final ScaffoldMessengerState? state = key.currentState;
     if (state == null) {
-      _logger.error('showError, state is null!');
+      _logger.error('_showToast, state is null!');
       return;
     }
 
     state.showSnackBar(SnackBar(
-      content: Text(error),
+      content: Text(text),
     ));
   }
 

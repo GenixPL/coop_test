@@ -225,14 +225,27 @@ class _FindStoreScreenState extends State<FindStoreScreen> {
   }
 
   Future<void> _findStores(BuildContext context, StoreFetchRequestData storeFetchRequestData) async {
-    final List<Store>? stores = await context.read<FindStoreProvider>().fetch(storeFetchRequestData);
-    if (stores != null && stores.isNotEmpty) {
+    final FindStoreFetchResult result = await context.read<FindStoreProvider>().fetch(storeFetchRequestData);
+
+    if (!mounted) {
+      return;
+    }
+
+    final List<Store>? stores = result.stores;
+    if (stores == null) {
+      context.read<Toaster>().showError(FindStoreFetchErrorMappers.findStoreFetchErrorToString(result.error));
+      return;
+    }
+
+    if (stores.isNotEmpty) {
       _mapController.fitCamera(CameraFit.coordinates(
         padding: const EdgeInsets.all(24),
         coordinates: [
           for (Store store in stores) LatLng(store.lat, store.lon),
         ],
       ));
+    } else {
+      context.read<Toaster>().showInfo('No stores have been found for this location.');
     }
   }
 

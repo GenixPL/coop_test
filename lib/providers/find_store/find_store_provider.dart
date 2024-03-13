@@ -1,6 +1,12 @@
 import 'package:coop_test/providers/_providers.dart';
 import 'package:coop_test/utils/_utils.dart';
 
+typedef FindStoreFetchResult = ({
+  List<Store>? stores,
+  FindStoreFetchError? error,
+});
+
+// TODO(genix): rename to inst and glob
 class FindStoreProvider extends GenProvider<FindStoreState> {
   FindStoreProvider() : super(FindStoreState.initial);
 
@@ -14,10 +20,12 @@ class FindStoreProvider extends GenProvider<FindStoreState> {
 
   // region Exposed
 
-  Future<List<Store>?> fetch(StoreFetchRequestData storeFetchRequestData) async {
+  Future<FindStoreFetchResult> fetch(StoreFetchRequestData storeFetchRequestData) async {
     if (value.isLoading) {
-      print('ALREADY FETCHING');
-      return null;
+      return (
+        stores: null,
+        error: const FindStoreFetchInProgressError(),
+      );
     }
 
     value = value.copyWith(isLoading: true);
@@ -29,9 +37,12 @@ class FindStoreProvider extends GenProvider<FindStoreState> {
     final List<Store>? stores = result.stores;
     if (stores == null) {
       value = value.copyWith(isLoading: false);
-      // Logger
-      print(result.error);
-      return null;
+      return (
+        stores: null,
+        error: FindStoreFetchFailedFetchError(
+          httpError: result.error,
+        ),
+      );
     }
 
     // Handle good
@@ -40,7 +51,10 @@ class FindStoreProvider extends GenProvider<FindStoreState> {
       stores: stores,
     );
 
-    return stores;
+    return (
+      stores: stores,
+      error: null,
+    );
   }
 
   // endregion
