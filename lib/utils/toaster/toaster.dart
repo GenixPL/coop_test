@@ -3,6 +3,10 @@ import 'package:flutter/material.dart';
 
 typedef ToasterKey = GlobalKey<ScaffoldMessengerState>;
 
+
+/// Shows [SnackBar]s.
+///
+/// Setup: the [key] should be inserted into [MaterialApp.scaffoldMessengerKey].
 class Toaster {
   const Toaster({
     required Logger logger,

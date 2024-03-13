@@ -6,6 +6,16 @@ dart ver: 3.2.0 \
 
 The app should work on macOS, iOS and Android, but I've built it mostly on macOS, so that's the most tested one.
 
-I didn't pay much attention to UI, I'm not a designer and decided to spend the time on showcasing the code structure.
+<br>
 
-Also, widgets' performance isn't optimized, but again - different focus + it doesn't seem to be needed at this point.
+I didn't pay much attention to UI, neither to:
+- readability,
+- separation
+- performance (it can't be bad at this point)
+- nor re-usability
+
+(all of this should be solved by a design system) 
+
+<br>
+
+Separation into body and screen, when using instance providers, makes it less likely we will end up using wrong context. 

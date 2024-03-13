@@ -11,7 +11,7 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return ScreenWrapper(
       appBar: null,
-      layout: ScrollableLayout(
+      child: ScrollableLayout(
         axis: Axis.vertical,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,

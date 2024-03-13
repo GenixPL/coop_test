@@ -8,7 +8,7 @@ export 'package:provider/single_child_widget.dart';
 /// Builds dependencies for the app's widgets.
 ///
 ///! --- IMPORTANT ---
-/// Their dependencies should not be accessible by the widgets,
+/// Internal dependencies should not be accessible by the widgets,
 /// and thus are not exposed.
 abstract class DepFactory {
   const DepFactory();

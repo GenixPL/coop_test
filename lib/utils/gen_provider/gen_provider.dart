@@ -7,6 +7,12 @@ abstract class GenProvider<T> extends ValueNotifier<T> {
   bool _wasInitialised = false;
 
   @protected
+  @override
+  set value(T newValue) {
+    super.value = newValue;
+  }
+
+  @protected
   void init() {}
 
   @override

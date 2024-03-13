@@ -58,7 +58,7 @@ class StoreFetchHelper {
       try {
         rawStore = RawStore.fromJson(storeJson);
       } catch (e, stc) {
-        _logger.error('fetchForInput, parse error: $e\nstc: $stc');
+        _logger.error('fetch, parse error: $e\nstc: $stc');
         return (
           stores: null,
           error: const HttpParseError(),

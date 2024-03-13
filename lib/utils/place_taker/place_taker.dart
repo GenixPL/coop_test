@@ -3,6 +3,9 @@ import 'package:flutter/material.dart';
 
 typedef NavKey = GlobalKey<NavigatorState>;
 
+/// Takes care of navigation
+///
+/// Setup: the [key] should be inserted into [MaterialApp.navigatorKey].
 class PlaceTaker {
   const PlaceTaker({
     required Logger logger,

@@ -1,6 +1,8 @@
 // ignore_for_file: avoid_print
 
-/// Logs stuff, or not.
+import 'package:coop_test/utils/_utils.dart';
+
+/// Logs stuff (or not).
 ///
 ///! --- IMPORTANT ---
 /// Widgets should not use this class, but the [Toaster] instead.

@@ -5,7 +5,7 @@ sealed class FindStoreFetchError with EquatableMixin {
   const FindStoreFetchError();
 }
 
-// There is already ongoing fetch.
+// There is already an ongoing fetch.
 //
 // Right now we do not support multiple fetches at a time.
 class FindStoreFetchInProgressError extends FindStoreFetchError {

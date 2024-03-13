@@ -1,22 +1,21 @@
-import 'package:coop_test/widgets/_widgets.dart';
 import 'package:flutter/material.dart';
 
 class ScreenWrapper extends StatelessWidget {
   const ScreenWrapper({
     super.key,
     required this.appBar,
-    required this.layout,
+    required this.child,
   });
 
   final AppBar? appBar;
-  final Layout layout;
+  final Widget child;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: appBar,
       body: SafeArea(
-        child: layout,
+        child: child,
       ),
     );
   }

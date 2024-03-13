@@ -20,7 +20,7 @@ class GenUrlLauncher {
         mode: LaunchMode.externalApplication,
       );
     } catch (e) {
-      _logger.error('launchLoc, error: $e');
+      _logger.error('launch, error: $e');
       return false;
     }
   }

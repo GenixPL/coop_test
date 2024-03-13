@@ -13,7 +13,11 @@ typedef GetLocationResult = ({
   GetLocationError? error,
 });
 
-// Setup: https://pub.dev/packages/geolocator#usage
+/// Provides location info.
+///
+/// User cannot be in two places at once so it's a global provider.
+///
+/// Setup: https://pub.dev/packages/geolocator#usage
 class GlobLocationProvider extends GenProvider<LatLng?> {
   GlobLocationProvider({
     required Logger logger,
