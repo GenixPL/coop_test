@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:coop_test/models/_models.dart';
+import 'package:coop_test/providers/_providers.dart';
 import 'package:coop_test/utils/_utils.dart';
 import 'package:http/http.dart' as http;
 

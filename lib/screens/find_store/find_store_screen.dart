@@ -3,7 +3,6 @@ import 'package:coop_test/providers/_providers.dart';
 import 'package:coop_test/screens/_screens.dart';
 import 'package:coop_test/utils/_utils.dart';
 import 'package:coop_test/widgets/_widgets.dart';
-import 'package:coop_test/models/_models.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';

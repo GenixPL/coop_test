@@ -8,3 +8,4 @@ export 'gen_url_launcher/_gen_url_launcher.dart';
 export 'gen_geolocator/_gen_geolocator.dart';
 export 'mappers/_mappers.dart';
 export 'toaster/_toaster.dart';
+export 'mocks/_mocks.dart';

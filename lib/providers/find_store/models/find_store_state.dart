@@ -1,4 +1,4 @@
-import 'package:coop_test/models/_models.dart';
+import 'package:coop_test/providers/_providers.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
 

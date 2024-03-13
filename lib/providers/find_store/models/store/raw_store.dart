@@ -1,4 +1,4 @@
-import 'package:coop_test/models/_models.dart';
+import 'package:coop_test/providers/_providers.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'raw_store.g.dart';
