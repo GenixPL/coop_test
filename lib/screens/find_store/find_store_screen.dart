@@ -19,13 +19,10 @@ class FindStoreScreen extends StatefulWidget {
 
   static const String routeName = 'FindStoreScreen';
 
-  static MaterialPageRoute<Widget> route() {
-    // TODO(genix): move
-    return MaterialPageRoute(
-      settings: const RouteSettings(name: routeName),
-      builder: (_) {
-        return const FindStoreScreen();
-      },
+  static Route<Widget> route() {
+    return RouteBuilder.defaultRoute(
+      routeName: routeName,
+      screen: const FindStoreScreen(),
     );
   }
 

@@ -12,16 +12,14 @@ class StoreInfoScreen extends StatelessWidget {
 
   static const String routeName = 'StoreInfoScreen';
 
-  static MaterialPageRoute<Widget> route({
+  static Route<Widget> route({
     required Store store,
   }) {
-    return MaterialPageRoute(
-      settings: const RouteSettings(name: routeName),
-      builder: (_) {
-        return StoreInfoScreen(
-          store: store,
-        );
-      },
+    return RouteBuilder.defaultRoute(
+      routeName: routeName,
+      screen: StoreInfoScreen(
+        store: store,
+      ),
     );
   }
 
