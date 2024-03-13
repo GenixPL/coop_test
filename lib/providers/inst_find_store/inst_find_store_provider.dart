@@ -9,21 +9,21 @@ typedef FindStoreFetchResult = ({
 class InstFindStoreProvider extends GenProvider<FindStoreState> {
   InstFindStoreProvider({
     required Logger logger,
+    required StoreFetchHelper storeFetchHelper,
   })  : _logger = logger,
+        _fetchHelper = storeFetchHelper,
         super(FindStoreState.initial);
 
   // region Dependencies
 
   final Logger _logger;
-  final StoreFetchHelper _fetchHelper = const StoreFetchHelper(
-    logger: Logger(),
-  );
+  final StoreFetchHelper _fetchHelper;
 
   // endregion
 
   // region Exposed
 
-  Future<FindStoreFetchResult> fetch(StoreFetchRequestData storeFetchRequestData) async {
+  Future<FindStoreFetchResult> fetch(StoreFetchRequest storeFetchRequestData) async {
     if (value.isLoading) {
       _logger.error('fetch, different fetch is already in progress!');
       return (

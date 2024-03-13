@@ -1,7 +1,7 @@
 abstract class StoreFetchRequestMocks {
   const StoreFetchRequestMocks._();
 
-  static Map<String, dynamic> example1 = {
+  static Map<String, dynamic> exampleResponse = {
     "Location": {
       "Bounds": null,
       "Longitude": 10.7360365,

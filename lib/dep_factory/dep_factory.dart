@@ -5,6 +5,11 @@ import 'package:flutter/foundation.dart';
 
 export 'package:provider/single_child_widget.dart';
 
+/// Builds dependencies for the app's widgets.
+///
+///! --- IMPORTANT ---
+/// Their dependencies should not be accessible by the widgets,
+/// and thus are not exposed.
 abstract class DepFactory {
   const DepFactory();
 
@@ -22,20 +27,12 @@ abstract class DepFactory {
   @protected
   List<SingleChildWidget> get utilsAsProvider {
     return [
-      Provider(create: (_) => logger),
-      Provider(create: (_) => genGeolocator),
       Provider(create: (_) => placeTaker),
       Provider(create: (_) => mapLauncher),
       Provider(create: (_) => urlLauncher),
       Provider(create: (_) => toaster),
     ];
   }
-
-  @protected
-  Logger get logger;
-
-  @protected
-  GenGeolocator get genGeolocator;
 
   @protected
   PlaceTaker get placeTaker;

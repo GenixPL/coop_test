@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:coop_test/providers/_providers.dart';
 import 'package:coop_test/utils/_utils.dart';
-import 'package:http/http.dart' as http;
 
 typedef StoreFetchResult = ({
   List<Store>? stores,
@@ -12,54 +11,40 @@ typedef StoreFetchResult = ({
 class StoreFetchHelper {
   const StoreFetchHelper({
     required Logger logger,
-  }) : _logger = logger;
+    required GenHttpClient genHttpClient,
+  })  : _logger = logger,
+        _httpClient = genHttpClient;
 
   // region Dependencies
 
   final Logger _logger;
-
-  // endregion
-
-  // region Values
-
-  static const Duration _fetchTimeout = Duration(seconds: 10);
+  final GenHttpClient _httpClient;
 
   // endregion
 
   // region Exposed
 
-  Future<StoreFetchResult> fetch(StoreFetchRequestData requestData) async {
-    final String body;
-    try {
-      final http.Response response = await http.Client().get(Uri.parse(requestData.url)).timeout(_fetchTimeout);
+  Future<StoreFetchResult> fetch(StoreFetchRequest request) async {
+    final HttpResult result = await _httpClient.send(request);
 
-      if (response.statusCode != 200) {
-        return (
-          stores: null,
-          error: HttpCodeError(
-            statusCode: response.statusCode,
-          ),
-        );
-      }
-
-      body = response.body;
-    } catch (e) {
-      _logger.error('fetchForInput, fetch error: $e');
-
-      if (e is TimeoutException) {
-        return (
-          stores: null,
-          error: const HttpTimeoutError(),
-        );
-      }
-
+    final Response? response = result.response;
+    if (response == null) {
       return (
         stores: null,
-        error: const HttpUnknownError(),
+        error: result.error,
       );
     }
 
-    final List<dynamic>? storesJsonList = body.toJsonMap()?.getValue('Stores');
+    if (response.statusCode != 200) {
+      return (
+        stores: null,
+        error: HttpCodeError(
+          statusCode: response.statusCode,
+        ),
+      );
+    }
+
+    final List<dynamic>? storesJsonList = response.body.toJsonMap()?.getValue('Stores');
     if (storesJsonList == null) {
       return (
         stores: null,

@@ -20,6 +20,9 @@ abstract class HttpErrorMappers {
 
       case HttpParseError():
         return 'Response has invalid format.';
+
+      case HttpWrongUrlError():
+        return 'Request url could not be parsed.';
     }
   }
 }

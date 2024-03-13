@@ -122,7 +122,7 @@ class _FindStoreScreenState extends State<FindStoreScreen> {
 
   Widget _buildTextField(BuildContext context, bool isLoading) {
     return SearchBar(
-      onSubmitted: (String input) => _findStores(context, StoreFetchRequestData.forInput(input)),
+      onSubmitted: (String input) => _findStores(context, StoreFetchRequest.forInput(input)),
       trailing: [
         if (isLoading) const CircularProgressIndicator(),
       ],
@@ -218,10 +218,10 @@ class _FindStoreScreenState extends State<FindStoreScreen> {
       return;
     }
 
-    await _findStores(context, StoreFetchRequestData.forLatLng(latLng));
+    await _findStores(context, StoreFetchRequest.forLatLng(latLng));
   }
 
-  Future<void> _findStores(BuildContext context, StoreFetchRequestData storeFetchRequestData) async {
+  Future<void> _findStores(BuildContext context, StoreFetchRequest storeFetchRequestData) async {
     final FindStoreFetchResult result = await context.read<InstFindStoreProvider>().fetch(storeFetchRequestData);
 
     if (!mounted) {

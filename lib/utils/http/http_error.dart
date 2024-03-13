@@ -22,6 +22,8 @@ class HttpTimeoutError extends HttpError {
   }
 }
 
+// For now not emitted by the client, but it's a
+// frequent thing so it's been put here.
 class HttpCodeError extends HttpError {
   const HttpCodeError({
     required this.statusCode,
@@ -52,5 +54,21 @@ class HttpParseError extends HttpError {
   @override
   List<Object?> get props {
     return <Object?>[];
+  }
+}
+
+/// [url] could not be parsed to [Uri].
+class HttpWrongUrlError extends HttpError {
+  const HttpWrongUrlError({
+    required this.url,
+  });
+
+  final String url;
+
+  @override
+  List<Object?> get props {
+    return <Object?>[
+      url,
+    ];
   }
 }

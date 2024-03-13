@@ -4,9 +4,6 @@ import 'package:coop_test/screens/_screens.dart';
 import 'package:coop_test/utils/_utils.dart';
 import 'package:flutter/material.dart';
 
-// TODO(genix): http client with:
-// https://docs.flutter.dev/data-and-backend/networking#platform-notes
-
 void main() {
   runApp(DepInjector(
     depFactory: ProdDepFactory(),
