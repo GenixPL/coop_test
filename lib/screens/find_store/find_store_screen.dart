@@ -56,7 +56,7 @@ class _FindStoreScreenState extends State<FindStoreScreen> {
 
               return Column(
                 children: [
-                  _buildTextField(context, state.isLoading),
+                  _buildSearch(context, state.isLoading),
                   Expanded(
                     child: IndexedStack(
                       index: switch (_view) {
@@ -69,7 +69,11 @@ class _FindStoreScreenState extends State<FindStoreScreen> {
                             _buildMap(state.stores),
                             Align(
                               alignment: Alignment.bottomCenter,
-                              child: _buildMapTiles(state.stores),
+                              child: FindStoreMapTileList(
+                                stores: state.stores,
+                                selectedStore: _selectedStore,
+                                onStoreTap: _selectStore,
+                              ),
                             ),
                           ],
                         ),
@@ -77,40 +81,7 @@ class _FindStoreScreenState extends State<FindStoreScreen> {
                       ],
                     ),
                   ),
-                  ScrollableLayout(
-                    axis: Axis.horizontal,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Row(
-                          children: [
-                            GenTextButton(
-                              text: 'map',
-                              onTap: () => _changeView(_FindStoreScreenView.map),
-                            ),
-                            GenTextButton(
-                              text: 'list',
-                              onTap: () => _changeView(_FindStoreScreenView.list),
-                            ),
-                          ],
-                        ),
-                        Row(
-                          children: [
-                            GenTextButton(
-                              text: 'fake position',
-                              onTap: () {
-                                context.read<GlobLocationProvider>().value = LatLngMocks.oslo;
-                              },
-                            ),
-                            GenTextButton(
-                              text: 'find nearby',
-                              onTap: () => _findStoresThroughLocation(context),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
+                  _buildBottomOptions(),
                 ],
               );
             },
@@ -120,7 +91,7 @@ class _FindStoreScreenState extends State<FindStoreScreen> {
     );
   }
 
-  Widget _buildTextField(BuildContext context, bool isLoading) {
+  Widget _buildSearch(BuildContext context, bool isLoading) {
     return SearchBar(
       onSubmitted: (String input) => _findStores(context, StoreFetchRequest.forInput(input)),
       trailing: [
@@ -150,57 +121,39 @@ class _FindStoreScreenState extends State<FindStoreScreen> {
     );
   }
 
-  Widget _buildMapTiles(List<Store> stores) {
-    return SingleChildScrollView(
-      scrollDirection: Axis.horizontal,
+  Widget _buildBottomOptions() {
+    return ScrollableLayout(
+      axis: Axis.horizontal,
       child: Row(
-        crossAxisAlignment: CrossAxisAlignment.end,
-        children: stores.map((Store store) {
-          return IntrinsicHeight(
-            child: Padding(
-              padding: const EdgeInsets.all(16),
-              child: GestureDetector(
-                onTap: () => _selectStore(store),
-                child: Card(
-                  color: (store == _selectedStore) ? context.theme.primaryColor : null,
-                  child: SizedBox(
-                    width: 200,
-                    child: Padding(
-                      padding: const EdgeInsets.all(16),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            store.name,
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
-                              IconButton(
-                                icon: const Icon(Icons.info_outline),
-                                onPressed: () {
-                                  context.read<PlaceTaker>().push(StoreInfoScreen.route(store: store));
-                                },
-                              ),
-                              IconButton(
-                                icon: const Icon(Icons.navigation_outlined),
-                                onPressed: () {
-                                  context.read<GenMapLauncher>().launchLoc(store.latLng);
-                                },
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Row(
+            children: [
+              GenTextButton(
+                text: 'map',
+                onTap: () => _changeView(_FindStoreScreenView.map),
               ),
-            ),
-          );
-        }).toList(),
+              GenTextButton(
+                text: 'list',
+                onTap: () => _changeView(_FindStoreScreenView.list),
+              ),
+            ],
+          ),
+          Row(
+            children: [
+              GenTextButton(
+                text: 'fake position',
+                onTap: () {
+                  context.read<GlobLocationProvider>().value = LatLngMocks.oslo;
+                },
+              ),
+              GenTextButton(
+                text: 'find nearby',
+                onTap: () => _findStoresThroughLocation(context),
+              ),
+            ],
+          ),
+        ],
       ),
     );
   }

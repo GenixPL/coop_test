@@ -42,66 +42,74 @@ class StoreInfoScreen extends StatelessWidget {
               Text('name: ${store.name}'),
               Text('lat: ${store.lat.toString()}'),
               Text('lon: ${store.lon.toString()}'),
-              Row(
-                children: [
-                  const Text('newsletterUrl: '),
-                  Flexible(
-                    child: Text(
-                      store.newsletterUrl,
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                  ),
-                  IconButton(
-                    onPressed: () {
-                      Clipboard.setData(ClipboardData(text: store.newsletterUrl));
-                    },
-                    icon: const Icon(Icons.copy),
-                  ),
-                  IconButton(
-                    onPressed: () {
-                      context.read<GenUrlLauncher>().launch(store.newsletterUrl);
-                    },
-                    icon: const Icon(Icons.web),
-                  ),
-                ],
-              ),
+              _buildNewsletterRow(context),
               AspectRatio(
                 aspectRatio: 1,
-                child: Stack(
-                  children: [
-                    GenMap(
-                      stores: [store],
-                      onStoreTap: null,
-                      controller: null,
-                      selectedStores: [store],
-                    ),
-                    Align(
-                      alignment: Alignment.bottomRight,
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Container(
-                          decoration: BoxDecoration(
-                            color: context.theme.colorScheme.background,
-                            shape: BoxShape.circle,
-                          ),
-                          child: IconButton(
-                            color: context.theme.primaryColor,
-                            icon: const Icon(Icons.navigation_outlined),
-                            onPressed: () {
-                              context.read<GenMapLauncher>().launchLoc(store.latLng);
-                            },
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
+                child: _buildMap(context),
               ),
             ],
           ),
         ),
       ),
+    );
+  }
+
+  Widget _buildNewsletterRow(BuildContext context) {
+    return Row(
+      children: [
+        const Text('newsletterUrl: '),
+        Flexible(
+          child: Text(
+            store.newsletterUrl,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+          ),
+        ),
+        IconButton(
+          onPressed: () {
+            Clipboard.setData(ClipboardData(text: store.newsletterUrl));
+          },
+          icon: const Icon(Icons.copy),
+        ),
+        IconButton(
+          onPressed: () {
+            context.read<GenUrlLauncher>().launch(store.newsletterUrl);
+          },
+          icon: const Icon(Icons.web),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildMap(BuildContext context) {
+    return Stack(
+      children: [
+        GenMap(
+          stores: [store],
+          onStoreTap: null,
+          controller: null,
+          selectedStores: [store],
+        ),
+        Align(
+          alignment: Alignment.bottomRight,
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Container(
+              decoration: BoxDecoration(
+                color: context.theme.colorScheme.background,
+                shape: BoxShape.circle,
+              ),
+              child: IconButton(
+                color: context.theme.primaryColor,
+                icon: const Icon(Icons.navigation_outlined),
+                onPressed: () {
+                  context.read<GenMapLauncher>().launchLoc(store.latLng);
+                },
+              ),
+            ),
+          ),
+        ),
+      ],
     );
   }
 }
