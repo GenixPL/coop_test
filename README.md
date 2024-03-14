@@ -19,8 +19,3 @@ I didn't pay much attention to UI, neither to:
 Users cannot download the newsletters inside the app, idk if the returned data has changed (and the task hasn't), or something else (i often turn out to be blind), but it didn't seem worth to me to try scraping the websites and producing pdfs out of them.   
 
 And I didn't want to put any keys into a public, + spend time on setuping them, so there is no navigation inside the app `:(` 
-
-
-<br>
-
-Separation into body and screen, when using instance providers, makes it less likely we will end up using wrong context. 
