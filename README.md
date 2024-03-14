@@ -1,5 +1,6 @@
 # coop_test
 
+line length: 120
 flutter ver: 3.16.0 (db7ef5bf9f59442b0e200a90587e8fa5e0c6336a) \
 dart ver: 3.2.0 \
 (in case some deps cause problems)
